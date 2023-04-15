@@ -1,0 +1,42 @@
+{
+  "blogs": [
+    {
+      "title": "Life as a university student",
+      "body": "We were told by our lecturer to write about our lives as university students\n but I had no idea on what to write",
+      "author": "Achale",
+      "id": 2
+    },
+    {
+      "title": "Programmer's blog",
+      "body": "What's is the importance of programming? Well I don't know. I am just a passer-by.",
+      "author": "EbotProg",
+      "id": 3
+    },
+    {
+      "title": "aaaaaaaaaaa",
+      "body": "aaaaaaaaaaaaaaaa",
+      "author": "aaaaaa",
+      "id": 4
+    },
+    {
+      "title": "New title",
+      "body": "New body",
+      "author": "New author",
+      "id": 5
+    }
+  ],
+  "users": [
+    {
+      "email": "achaleebotoma2002@gmail.com",
+      "username": "EbotProg",
+      "password": "aaaaa",
+      "id": 1
+    },
+    {
+      "email": "aaa@gmail.com",
+      "username": "dddd",
+      "password": "ddddd",
+      "id": 2
+    }
+  ]
+}
