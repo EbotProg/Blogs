@@ -17,7 +17,10 @@
   --clr-box-shadow: #f1f1f1;
   --clr-delete: rgb(214, 64, 89);
   --clr-delete-on-hover: rgb(215, 26, 57);
+  --clr-red: #cf304b;
+  --clr-light-red: #ff8c9f;
   --clr-light-grey: #b3b2b2;
+  --clr-very-light-grey: #ebebeb;
   --clr-thick-grey: #757575;
   --clr-border: #f0f0f0;
   --bg-home: #fafafa;
@@ -340,8 +343,8 @@ height: 3.3rem;
 }
 
 .sm-icon{
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 /* for all pages */
@@ -727,9 +730,118 @@ object-fit: cover;
   display: flex;
   flex-direction: row;
   gap: 0.9rem;
+  align-items: center;
+  position:relative;
+}
+
+.blog-details-author-date{
+  flex-grow: 1;
+}
+
+.blog-menu-div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.delete-edit-div{
+  display: flex;
+  flex-direction: row;
+  gap: 0.1rem;
+  padding: 0.2rem;
+  font-weight: var(--fw-300);
+  cursor: pointer;
+}
+
+.blog-delete-btn, .delete-btn-div{
+  color: rgb(255, 0, 0);
+  
+}
+
+.blog-menu-content{
+  background-color: var(--clr-white);
+  position: absolute;
+  top: -3rem;
+  right: 0.5rem;
+  animation-name: showBlogMenu;
+  animation-duration: 1s;
+
+}
+
+@keyframes showBlogMenu{
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.delete-edit-div:hover{
+ background-color: var(--clr-very-light-grey);
+ font-weight: var(--fw-500);
 }
 
 
+.blog-menu-content{
+  display: flex;
+  flex-direction: column;
+}
+
+.delete-alert-div{
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  position: fixed;
+  top: 38%;
+  right: 4%;
+  z-index: 1000;
+  background-color: var(--clr-white);
+  border-radius: 10px;
+  padding: 0.9rem;
+}
+
+.delete-alert-div-top{
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+}
+
+.delete-alert-div-icon{
+  background-color: var(--clr-light-red);
+  color: var(--clr-red);
+  align-self: center;
+  padding: 0.2rem;
+  border-radius: 2px;
+}
+
+.delete-alert-div-title{
+  font-weight: var(--fw-500);
+  flex-grow: 1;
+}
+
+.delete-alert-close-btn{
+  align-self: center;
+  
+}
+
+.delete-alert-close-btn:hover{
+  background-color: var(--clr-very-light-grey);
+  cursor: pointer;
+  padding: 0.1rem;
+  border-radius: 1px;
+}
+
+.delete-alert-btn-div{
+  align-self: flex-end;
+ display: flex;
+ flex-direction: row;
+ gap: 0.5rem;
+}
+
+/* give blog-details this class when the delete alert is shown */
+.blog-details-blur{
+filter: blur(2px);
+-webkit-filter: blur(2px);
+
+}
+ 
 .blog-details-content{
   align-self: start;
   justify-self: start;
@@ -1404,6 +1516,8 @@ object-fit: cover;
   .search-icon{
     display: none;
   }
+
+  
 }
 
 
@@ -1418,7 +1532,9 @@ object-fit: cover;
     height: 320px !important;
   }
 
-
+.delete-alert-div{
+  right: 30%;
+}
  
 }
 
@@ -1439,6 +1555,13 @@ object-fit: cover;
   .blog-details-header-image{
     height: 18rem;
     }
+    
+    .delete-alert-div{
+      right: 40%;
+    }
+
+
+
 }
 
 

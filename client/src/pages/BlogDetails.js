@@ -1,4 +1,6 @@
 import { BiEdit } from 'react-icons/bi';
+import { MdDelete } from 'react-icons/md';
+import { GoKebabVertical } from 'react-icons/go'
 import React, { useContext, useState, useEffect } from 'react';
 import { BlogContext } from '../App';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -7,6 +9,8 @@ import parse from 'html-react-parser';
 import { Avatar } from '@mui/material';
 import useAxios from 'api/UseAxios';
 import BlogComment from 'components/BlogComment';
+import { GrFormClose } from 'react-icons/gr';
+import { BsFillExclamationTriangleFill } from 'react-icons/bs';
 // import { RWebShare } from "react-web-share";
 import {
     EmailShareButton,
@@ -32,7 +36,10 @@ const BlogDetails = () => {
     const {data:blog, loading, error} = useAxios(`/blogs/${id}`, accessToken)
     let navigate = useNavigate();
     const [loadedImage, setLoadedImage] = useState(null);
-    
+    const [deleteEditBtnsShown, setDeleteEditBtnsShown] = useState(false);
+    // const [deleteAlertCloseBtnClicked, setDeleteAlertCloseBtnClicked] = useState(false);
+    const [showAlertDiv, setShowAlertDiv] = useState(false);
+    const [makeBlogBlur, setMakeBlogBlur] = useState(false);
     const [username, setUsername] = useState(JSON.parse(localStorage.getItem('user')));
     console.log('blog blogdetailsjs', blog, id);
 
@@ -44,11 +51,10 @@ const BlogDetails = () => {
     const {data:users, loading:userLoading} = useAxios('/users')
 
     function handleDelete(id){
-
-        axios.delete(`/blogs/${id}`)
+        axios.delete(`/delete-blog/${id}`)
         .then(()=>{
             console.log('blog deleted');
-         navigate('/');
+         navigate('/main/dashboard');
         })
     }
 
@@ -169,6 +175,30 @@ else if(btn === 'dislikeBtn'){
     }
 
 
+    //function to show the delete and edit btns if clicked
+
+    function handleShowEditDeleteBtns(){
+      setDeleteEditBtnsShown(current=>!current);
+    }
+
+    //function to hide blog menu when any part of the blog is clicked
+    function handleHideBlogMenu(){
+      setDeleteEditBtnsShown(false);
+    }
+
+   //function to close delete alert div
+   function handleCloseDeleteAlertDiv() {
+    setShowAlertDiv(false);
+    setMakeBlogBlur(false);
+   }
+
+  //function to show the delete alert div
+  function handleShowAlertDiv() {
+    setShowAlertDiv(true);
+    setMakeBlogBlur(true);
+  }
+
+
     return ( 
            
             
@@ -236,11 +266,11 @@ else if(btn === 'dislikeBtn'){
                 //         return (
                             <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
 
-                            <div className="blog-details col-11 col-sm-10 col-md-9 col-lg-7 col-xl-6">
+                            <div className={makeBlogBlur? 'blog-details col-11 col-sm-10 col-md-9 col-lg-7 col-xl-6 blog-details-blur': 'blog-details col-11 col-sm-10 col-md-9 col-lg-7 col-xl-6'}>
                   
                             <div className="blog-details-header">
-                                <img className="blog-details-header-image shadow-sm" src={`${blog.mainPhotoPath}/${blog.mainPhotoName}`} alt="" />
-                                <h1 className="blog-details-header-title">{blog.title}</h1>
+                                <img onClick={handleHideBlogMenu} className="blog-details-header-image shadow-sm" src={`${blog.mainPhotoPath}/${blog.mainPhotoName}`} alt="" />
+                                <h1 onClick={handleHideBlogMenu} className="blog-details-header-title">{blog.title}</h1>
                                 <div className="blog-details-header-other-info placeholder-glow">
                                     {/* <img className="blog-details-author-image" src={blog.} alt="" /> */}
                                     {
@@ -269,6 +299,7 @@ else if(btn === 'dislikeBtn'){
                         src={user.profilePicPath}
                         sx={{width: 44, height: 44}}
                         className="blog-avatar"
+                        onClick={handleHideBlogMenu}
                         />}
            
                                 </>
@@ -281,14 +312,34 @@ else if(btn === 'dislikeBtn'){
                         
 
                     }
-                                    <div>
+                                    <div onClick={handleHideBlogMenu} className="blog-details-author-date">
                                     <div className="blog-details-author">{blog.author === username ? 'You': blog.author}</div>
                                     <div className="blog-details-date">{blog.createdDashDate}</div>
                                     </div>
-                                    
+
+                                    <div className="blog-menu-div">
+                                      
+                            <GoKebabVertical onClick={handleShowEditDeleteBtns} className="blog-menu md-icon" />
+                            <div className={deleteEditBtnsShown ? 'blog-menu-content shadow':"d-none"}>
+                             
+                     
+
+                              <div onClick={handleShowAlertDiv} className={username === blog.author? 'delete-btn-div delete-edit-div': 'delete-btn-div delete-edit-div disabledDiv'}>
+                              <MdDelete className="blog-delete-btn md-icon" />
+                              Delete
+                              </div>
+
+                              <div className={username === blog.author? 'edit-btn-div delete-edit-div': 'edit-btn-div delete-edit-div disabledDiv'}>
+                              <BiEdit className="blog-edit-btn md-icon" />
+                              Edit
+                              </div>
+
+                            </div>
+                            
+                                    </div>
                                 </div>
                             </div>
-                            <div className="blog-details-content">
+                            <div onClick={handleHideBlogMenu} className="blog-details-content">
                                 {parse(blog.content)}
                             </div>
                             <div className="like-dislike-btns-div">
@@ -351,7 +402,7 @@ else if(btn === 'dislikeBtn'){
                             
                             
                             <div className="share-blog-via d-flex flex-row">
-                             
+                            <p>Share blog via :</p>
                              <FacebookShareButton url={`http://localhost:3000/main/blogs/${blog._id}`}>
                                 <FacebookIcon size={40} />
                              </FacebookShareButton>
@@ -377,7 +428,6 @@ else if(btn === 'dislikeBtn'){
                                 <EmailIcon size={40} />
                              </EmailShareButton>
 
-
                             </div>
 
 
@@ -386,6 +436,23 @@ else if(btn === 'dislikeBtn'){
                             <BlogComment className="w-100 h-100" blogId={id} blogOwner={blog.author}/>
                             </div>
                             
+                            </div>
+
+                            <div className={showAlertDiv? 'delete-alert-div shadow': 'd-none'}>
+                              
+                              <div className="delete-alert-div-top">
+                              <BsFillExclamationTriangleFill className="sm-icon delete-alert-div-icon" />
+                              <div className="delete-alert-div-title fs-3">Delete Blog</div>
+                              <GrFormClose onClick={handleCloseDeleteAlertDiv} className="delete-alert-close-btn md-icon" />
+                              </div>
+                              
+                              <p className="delete-alert-content">Are you sure you want to delete this blog?</p>
+                      
+                              <div className="delete-alert-btn-div">
+                                <button onClick={()=> handleDelete(id)} className="btn btn-danger delete-alert-btn btn-sm yes-btn">yes</button>
+                                <button onClick={handleCloseDeleteAlertDiv} className="btn btn-outline-secondary btn-sm delete-alert-btn no-btn">no</button>
+                                </div>                             
+
                             </div>
               </div>
                     //         )

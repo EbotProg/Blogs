@@ -75,7 +75,7 @@ const Dashboard = ({query}) => {
         let arr = [...blogs];
         let arrNew = [];
         // let arrLength = {value: arr.length};
-        console.log('arr dashboard', arr)
+        // console.log('arr dashboard', arr)
         //check title, category and author
     
         //for title
@@ -258,12 +258,12 @@ const Dashboard = ({query}) => {
     //get how much time has passed since blog was posted
 
     function getNumOfYears(time){
-        return Math.floor(time / (1000 * 60 * 60 * 24 * 7 * 30 * 12))
+        return Math.floor(time / (1000 * 60 * 60 * 24 * 7 * 4 * 12))
 
     }
 
     function getNumOfMonths(time){
-        return Math.floor(time / (1000 * 60 * 60 * 24 * 7 * 30))
+        return Math.floor(time / (1000 * 60 * 60 * 24 * 7 * 4))
     
     }
 

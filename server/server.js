@@ -383,3 +383,32 @@ app.post('/edit-likes-and-dislikes/:id', (req, res)=>{
     .update({_id: ObjectId(req.params.id)},{ $set: {likes: req.body.likes, dislikes: req.body.dislikes, likesArr: req.body.likesArr, dislikesArr: req.body.dislikesArr}})
     res.end();
 })
+
+//route to delete blog blog
+
+app.delete('/delete-blog/:id', (req, res)=>{
+    console.log(req.params.id);
+    db.collection('blogs')
+    .findOne({_id: ObjectId(req.params.id)})
+    .then(result =>{
+      fs.unlink(`../client/public/blogImages/${result.mainPhotoName}`, (err)=>{//delete file from server
+        if(err) console.log(err);
+        console.log('blog image deleted from server');
+        //delete file info from database
+        db.collection('blogs')
+        .deleteOne({_id: ObjectId(req.params.id)})
+        .then(result=>{
+          console.log('file deleted from database successfully');
+         
+        })
+        .catch(err=>{
+          if(err) throw err;
+          res.json({err: "blog not found!"})
+        })
+      })
+    })
+  })
+
+
+
+//route to edit blog
