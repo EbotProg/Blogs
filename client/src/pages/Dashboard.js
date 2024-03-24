@@ -15,7 +15,7 @@ import jwt_decode from 'jwt-decode';
 
 const Dashboard = ({query}) => {
 
-    let { blogs, error, status } = useContext(BlogContext); 
+    let { blogs, error, status, loading } = useContext(BlogContext); 
     let [blogTimeArr, setBlogTimeArr] = useState(null);
     let [middleBlogsArr, setMiddleBlogsArr] = useState(null);
     const [username, setUsername] = useState(JSON.parse(localStorage.getItem('user')));

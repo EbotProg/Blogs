@@ -82,7 +82,7 @@ const { connectToDb, getDb } = require('./db');
 const port = 7500;
 
 app.get('/', (req, res)=>{
-    res.end();
+    res.send({test: "ok"});
 })
 
 

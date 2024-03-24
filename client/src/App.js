@@ -7,7 +7,11 @@ import BlogDetails from './pages/BlogDetails';
 // import EditBlog from './pages/EditBlog';
 import Login from './pages/Login';
 import AuthNavbar from './pages/AuthNavbar';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { 
+  useEffect, 
+  useState, 
+  useRef 
+} from 'react';
 import useAxios from "./api/UseAxios";
 import Registration from './pages/Registration';
 import 'bootstrap/dist/css/bootstrap.min.css';
