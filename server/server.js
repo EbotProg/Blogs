@@ -123,6 +123,7 @@ app.get('/user/:username', (req, res)=>{
 //used to submit and check a user's registration info
 app.post('/auth/register', (req, res)=>{
 
+    console.log("registration running")
     let regInfo = {
         email: "",
         username: "",

@@ -112,7 +112,9 @@ function handleNavSearch(targetValue) {
     
       <Routes>
         
-       <Route path="/">
+       <Route>
+            <Route index element={<Login setToken={setToken} />} />
+
            <Route path="main/*" element={<MainApplication />}/>
            <Route path="auth/*" element={<RegLog />}/>
         </Route>

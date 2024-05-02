@@ -9,17 +9,18 @@ import { useNavigate } from 'react-router-dom';
 import { BlogContext } from 'App';
 import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Blogs from './Blogs'
 import jwt_decode from 'jwt-decode';
 
 
 
 const Dashboard = ({query}) => {
 
-    let { blogs, error, status } = useContext(BlogContext); 
+    let { blogs, error, status, loading } = useContext(BlogContext); 
     let [blogTimeArr, setBlogTimeArr] = useState(null);
     let [middleBlogsArr, setMiddleBlogsArr] = useState(null);
     const [username, setUsername] = useState(JSON.parse(localStorage.getItem('user')));
-
+    console.log('loading', loading)
     const navigate = useNavigate();
     
    
@@ -406,7 +407,7 @@ const Dashboard = ({query}) => {
                 columnClassName="my-masonry-grid_column dashcards"
                 > */}
 
-{!blogTimeArr && 
+{loading && !blogTimeArr && 
                 <div className="container-fluid px-2">
                 <div className="dashcards d-flex flex-row justify-content-center row gy-4 gx-5">
 
@@ -513,7 +514,7 @@ const Dashboard = ({query}) => {
                 
                 
                 
-                {blogTimeArr &&  [...blogTimeArr].reverse().map((blog, index, arr)=>{
+                {!loading && blogTimeArr &&  [...blogTimeArr].reverse().map((blog, index, arr)=>{
                     return(
                         <>
                         <Link className="dashcard text-wrap col-11 col-sm-10 col-md-6 col-lg-4 col-xl-3" key={blog._id} to={`/main/blogs/${blog._id}`}>
@@ -560,7 +561,12 @@ const Dashboard = ({query}) => {
               
             }
 
+            { !loading && !blogTimeArr && 
+            <div className='container-fluid'>
+                <h1 className='text-center fw-lighter fst-italic'>No Blogs</h1>
 
+            </div>
+            }
 
 
 
@@ -790,6 +796,10 @@ const Dashboard = ({query}) => {
         </div>
         
      );
+
+// return (
+//     <Blogs />
+// )
 }
  
 export default Dashboard;

@@ -12,7 +12,7 @@ const useAxios = (url, accessToken) => {
  useEffect(()=>{
   const abortCont = new AbortController();
 console.log('access token',accessToken)
- setTimeout(()=>{
+//  setTimeout(()=>{
 
 axios.get(url, {signal: abortCont.signal,
                  headers:{
@@ -39,13 +39,13 @@ axios.get(url, {signal: abortCont.signal,
         }
 
     })
- }, 7000)
+//  }, 1)
     
 
     
     return ()=> abortCont.abort();
  }, [accessToken, url])
-
+  console.log(data, loading, error, status)
  return { data, loading, error, status }
 }
  

@@ -45,7 +45,7 @@ async function handleSubmit(e) {
     if(users.length === 0){//if database is empty
          
         if(email.length === 0 || !(emailIsValid.test(email))){
-    
+    console.log("email is valid", emailIsValid.test(email))
             setErrMsg('Incorrect email');
         return;     
         }if(username.split(" ").join("").length < 4 ){
